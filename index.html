@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Esfera com Cor Aleatória</title>
+  
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0f0f1a;
+    }
+
+    .esfera {
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(
+        circle at 30% 30%,
+        #ffffff 0%,
+        #a0c0ff 25%,
+        #4169e1 50%,
+        #00008b 80%,
+        #000033 100%
+      );
+      border-radius: 50%;
+      box-shadow: 
+        inset 0 0 50px rgba(255,255,255,0.4),
+        0 0 60px rgba(65,105,225,0.7),
+        0 30px 60px rgba(0,0,0,0.6);
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+
+    .esfera:hover {
+      transform: scale(1.08);
+      box-shadow: 
+        inset 0 0 60px rgba(255,255,255,0.6),
+        0 0 100px rgba(100,149,237,0.9),
+        0 40px 80px rgba(0,0,0,0.7);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="esfera" id="bola"></div>
+
+  <script>
+    const bola = document.getElementById('bola');
+
+    function corAleatoria() {
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    bola.addEventListener('mouseenter', () => {
+      const novaCor = corAleatoria();
+      
+      // Cor principal
+      bola.style.background = `radial-gradient(
+        circle at 30% 30%,
+        #ffffff 0%,
+        ${novaCor} 30%,
+        ${escurecerCor(novaCor, 30)} 60%,
+        ${escurecerCor(novaCor, 60)} 85%,
+        #000022 100%
+      )`;
+      
+      // Sombra colorida combinando com a bola
+      bola.style.boxShadow = `
+        inset 0 0 60px rgba(255,255,255,0.5),
+        0 0 120px ${novaCor}88,
+        0 40px 80px rgba(0,0,0,0.7)
+      `;
+    });
+
+    // Função auxiliar para escurecer uma cor RGB
+    function escurecerCor(cor, percent) {
+      const match = cor.match(/\d+/g);
+      if (!match) return '#000033';
+      
+      const r = Math.max(0, Math.floor(parseInt(match[0]) * (1 - percent/100)));
+      const g = Math.max(0, Math.floor(parseInt(match[1]) * (1 - percent/100)));
+      const b = Math.max(0, Math.floor(parseInt(match[2]) * (1 - percent/100)));
+      
+      return `rgb(${r},${g},${b})`;
+    }
+  </script>
+
+</body>
+</html>

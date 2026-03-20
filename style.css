@@ -1,0 +1,82 @@
+body {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0a0a1f;
+  background: radial-gradient(circle at 50% 30%, #1a1a4a, #000814);
+}
+
+.esfera {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  
+  /* Gradiente principal que simula iluminação */
+  background: radial-gradient(
+    circle at 35% 35%,
+    #ffffff 0%,
+    #ffffff 8%,
+    var(--cor-principal) 18%,
+    color-mix(in srgb, var(--cor-principal) 70%, #000 100%) 55%,
+    #000814 80%,
+    #00030f 100%
+  );
+  
+  /* Sombras e brilhos internos e externos */
+  box-shadow: 
+    inset  -40px -40px 80px rgba(0,0,0,0.7),
+    inset   30px  30px 60px rgba(255,255,255,0.12),
+    inset   0px   0px 100px rgba(0,0,0,0.5),
+    0 0 120px 40px color-mix(in srgb, var(--cor-principal) 30%, transparent),
+    0 30px 80px rgba(0,0,0,0.6);
+  
+  /* Efeito de destaque brilhante */
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.35s ease, box-shadow 0.4s ease;
+}
+
+.esfera::before {
+  content: "";
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), transparent 60%);
+  border-radius: 50%;
+  top: 35px;
+  left: 50px;
+  opacity: 0.5;
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+.esfera:hover {
+  transform: scale(1.06) translateY(-15px);
+  box-shadow: 
+    inset  -50px -50px 100px rgba(0,0,0,0.75),
+    inset   40px  40px 80px rgba(255,255,255,0.18),
+    0 0 180px 70px color-mix(in srgb, var(--cor-principal) 45%, transparent),
+    0 50px 120px rgba(0,0,0,0.7);
+}
+
+.esfera::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 20% 20%,
+    rgba(255,255,255,0.25) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.esfera:hover::after {
+  opacity: 1;
+}
